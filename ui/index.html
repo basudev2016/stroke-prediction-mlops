@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stroke Prediction — MLOps Dashboard</title>
+    <link rel="stylesheet" href="/ui/styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🧪 Stroke Prediction</h1>
+            <p class="subtitle">MLOps Dashboard</p>
+            <div id="model-badge" class="badge loading">Loading model...</div>
+        </header>
+
+        <!-- Tab Navigation -->
+        <nav class="tabs">
+            <button class="tab active" data-tab="predict">Predict</button>
+            <button class="tab disabled" data-tab="pipeline" title="Coming Week 3">Pipeline</button>
+            <button class="tab disabled" data-tab="observe" title="Coming Week 4">Observe</button>
+            <button class="tab disabled" data-tab="monitor" title="Coming Week 5">Monitor</button>
+            <button class="tab disabled" data-tab="results" title="Coming Week 6">Results</button>
+        </nav>
+
+        <!-- Predict Tab -->
+        <section id="predict" class="tab-content active">
+            <h2>Patient Risk Assessment</h2>
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="gender">Gender</label>
+                    <select id="gender">
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="age">Age</label>
+                    <input type="number" id="age" value="67" min="18" max="120">
+                </div>
+
+                <div class="form-group">
+                    <label for="hypertension">Hypertension</label>
+                    <select id="hypertension">
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="heart_disease">Heart Disease</label>
+                    <select id="heart_disease">
+                        <option value="0">No</option>
+                        <option value="1" selected>Yes</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="ever_married">Ever Married</label>
+                    <select id="ever_married">
+                        <option value="Yes" selected>Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="work_type">Work Type</label>
+                    <select id="work_type">
+                        <option value="Private" selected>Private</option>
+                        <option value="Self-employed">Self-employed</option>
+                        <option value="Govt_job">Govt Job</option>
+                        <option value="Never_worked">Never Worked</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="Residence_type">Residence Type</label>
+                    <select id="Residence_type">
+                        <option value="Urban" selected>Urban</option>
+                        <option value="Rural">Rural</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="avg_glucose_level">Avg Glucose Level</label>
+                    <input type="number" id="avg_glucose_level" value="228.69" step="0.01" min="0">
+                </div>
+
+                <div class="form-group">
+                    <label for="bmi">BMI</label>
+                    <input type="number" id="bmi" value="36.6" step="0.1" min="10" max="100">
+                </div>
+
+                <div class="form-group">
+                    <label for="smoking_status">Smoking Status</label>
+                    <select id="smoking_status">
+                        <option value="formerly smoked" selected>Formerly Smoked</option>
+                        <option value="never smoked">Never Smoked</option>
+                        <option value="smokes">Smokes</option>
+                        <option value="Unknown">Unknown</option>
+                    </select>
+                </div>
+            </div>
+
+            <button id="predict-btn" class="btn-primary" onclick="predict()">
+                🔍 Predict Stroke Risk
+            </button>
+
+            <!-- Result Card -->
+            <div id="result-card" class="result-card hidden">
+                <div id="result-icon" class="result-icon"></div>
+                <div class="result-details">
+                    <div id="result-label" class="result-label"></div>
+                    <div id="result-confidence" class="result-confidence"></div>
+                    <div id="result-model" class="result-model"></div>
+                </div>
+            </div>
+
+            <!-- Batch Upload -->
+            <div class="batch-section">
+                <h3>Batch Prediction</h3>
+                <p>Upload a CSV file with patient records to score in bulk.</p>
+                <input type="file" id="batch-file" accept=".csv">
+                <button class="btn-secondary" onclick="predictBatch()">
+                    📊 Score Batch
+                </button>
+                <div id="batch-result" class="batch-result hidden"></div>
+            </div>
+        </section>
+
+        <!-- Placeholder tabs (will be built in later weeks) -->
+        <section id="pipeline" class="tab-content">
+            <h2>Pipeline Status</h2>
+            <p class="placeholder">🚧 Coming in Week 3 — CI/CD pipeline monitoring</p>
+        </section>
+
+        <section id="observe" class="tab-content">
+            <h2>Observability</h2>
+            <p class="placeholder">🚧 Coming in Week 4 — Metrics dashboards and logging</p>
+        </section>
+
+        <section id="monitor" class="tab-content">
+            <h2>ML Monitoring</h2>
+            <p class="placeholder">🚧 Coming in Week 5 — Drift detection and alerts</p>
+        </section>
+
+        <section id="results" class="tab-content">
+            <h2>Scored Results</h2>
+            <p class="placeholder">🚧 Coming in Week 6 — Batch results and Excel downloads</p>
+        </section>
+    </div>
+
+    <script src="/ui/app.js"></script>
+</body>
+</html>

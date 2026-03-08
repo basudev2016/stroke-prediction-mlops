@@ -1,0 +1,16 @@
+mlopsvenv/
+mlruns/
+mlartifacts/
+data/
+.git/
+.github/
+terraform/
+tests/
+__pycache__/
+*.pyc
+.env
+.gitignore
+LICENSE
+README.md
+Dockerfile
+.dockerignore
