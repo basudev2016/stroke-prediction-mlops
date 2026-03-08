@@ -1,0 +1,66 @@
+# ──────────────────────────────────────────────
+# CI Pipeline — Runs on every push and PR
+# ──────────────────────────────────────────────
+# Steps:
+#   1. Install dependencies
+#   2. Run full training pipeline (preprocess → train → evaluate → export)
+#   3. Run all tests (unit + model validation + API integration)
+#   4. Build Docker image (validate it builds)
+
+name: CI — Test & Validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # ── Checkout code ──
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ── Setup Python ──
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      # ── Install dependencies ──
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # ── Create .env (CI uses defaults, no real secrets needed) ──
+      - name: Create .env file
+        run: |
+          echo "GCP_PROJECT_ID=ci-test" >> .env
+          echo "GCP_REGION=asia-south1" >> .env
+          echo "ALERT_EMAIL=ci@test.com" >> .env
+
+      # ── Run training pipeline ──
+      - name: Preprocess data
+        run: python src/training/preprocess.py
+
+      - name: Train models (MLflow experiment)
+        run: python src/training/train.py
+
+      - name: Evaluate and promote champion
+        run: python src/training/evaluate.py
+
+      - name: Export champion model
+        run: python src/training/export_model.py
+
+      # ── Run tests ──
+      - name: Run all tests
+        run: pytest tests/ -v --tb=short
+
+      # ── Validate Docker build ──
+      - name: Build Docker image
+        run: docker build -t stroke-mlops:ci-test .
