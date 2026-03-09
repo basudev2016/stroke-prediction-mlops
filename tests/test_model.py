@@ -14,7 +14,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import pandas as pd
 import numpy as np
 import pytest
-import mlflow.sklearn
+import joblib
 
 from src.config import ALL_FEATURES, TARGET, MODEL_DIR
 
@@ -23,14 +23,15 @@ from src.config import ALL_FEATURES, TARGET, MODEL_DIR
 # Fixtures
 # ──────────────────────────────────────────────
 MODEL_PATH = MODEL_DIR / "champion"
+MODEL_PKL = MODEL_PATH / "model.pkl"
 
 
 @pytest.fixture(scope="module")
 def model():
-    """Load the exported champion model."""
-    if not MODEL_PATH.exists():
+    """Load the exported champion model directly via joblib."""
+    if not MODEL_PKL.exists():
         pytest.skip("Exported model not found. Run export_model.py first.")
-    return mlflow.sklearn.load_model(str(MODEL_PATH))
+    return joblib.load(MODEL_PKL)
 
 
 @pytest.fixture
