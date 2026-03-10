@@ -8,7 +8,9 @@ data/incoming/
 __pycache__/
 *.pyc
 models/
-
+github-deploy-key.json
+reports/
+output/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
